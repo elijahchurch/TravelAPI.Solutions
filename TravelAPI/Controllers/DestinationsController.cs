@@ -79,6 +79,22 @@ namespace TravelAPI.Controllers
         {
             return _db.Destinations.Any(e => e.DestinationId == id);
         }
+
+        // DELETE: api/Destinations/8
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDestination(int id)
+        {
+            Destination destination = await _db.Destinations.FindAsync(id);
+            if (destination == null)
+        {
+        return NotFound();
+        }
+
+        _db.Destinations.Remove(destination);
+        await _db.SaveChangesAsync();
+
+        return NoContent();
+        }
     }
 }
 
