@@ -14,6 +14,7 @@ namespace TravelAPI.Controllers
             _db = db;
         }
 
+        //GET: api/Destinations
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Destination>>> Get()
         {
@@ -34,6 +35,14 @@ namespace TravelAPI.Controllers
             
         } 
         
+        //Post api/Destinations
+        [HttpPost]
+        public async Task<ActionResult<Destination>> Post(Destination destination)
+        {
+            _db.Destinations.Add(destination);
+            await _db.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetDestination), new { id = destination.DestinationId}, destination);
+        }
     }
 
 }
