@@ -26,23 +26,59 @@ namespace TravelAPI.Controllers
         public async Task<ActionResult<Destination>> GetDestination(int id)
         {
             Destination destination = await _db.Destinations.FindAsync(id);
-             
+
             if (destination == null)
             {
                 return NotFound();
             }
-                return destination;
-            
-        } 
-        
+            return destination;
+
+        }
+
         //Post api/Destinations
         [HttpPost]
         public async Task<ActionResult<Destination>> Post(Destination destination)
         {
             _db.Destinations.Add(destination);
             await _db.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetDestination), new { id = destination.DestinationId}, destination);
+            return CreatedAtAction(nameof(GetDestination), new { id = destination.DestinationId }, destination);
+        }
+
+        // Put: api/Destinations/
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, Destination destination)
+        {
+            if (id != destination.DestinationId)
+            {
+                return BadRequest();
+            }
+
+            _db.Destinations.Update(destination);
+
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DestinationExists(id))
+                {
+                return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+
+        }
+        
+        private bool DestinationExists(int id)
+        {
+            return _db.Destinations.Any(e => e.DestinationId == id);
         }
     }
-
 }
+
