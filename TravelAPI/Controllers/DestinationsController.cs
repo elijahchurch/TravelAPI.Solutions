@@ -4,8 +4,10 @@ using TravelAPI.Models;
 
 namespace TravelAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class DestinationsController : ControllerBase
     {
         private readonly TravelAPIContext _db;
