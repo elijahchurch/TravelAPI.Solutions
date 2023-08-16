@@ -74,3 +74,22 @@ select bearer token and use the token returned from security/createToken
 
 token setup docs
 https://medium.com/bina-nusantara-it-division/implementing-jwt-in-asp-net-core-6-0-web-api-c-3a396fa8cfeb
+
+add appsettings.json
+{
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft.AspNetCore": "Warning"
+      }
+    },
+    "AllowedHosts": "*",
+    "ConnectionStrings": {
+      "DefaultConnection": "Server=localhost;Port=3306;database=travel_api;uid=root;pwd=epicodus;"
+    },
+    "Jwt": {
+        "Issuer": "http://locahost:5000",
+        "Audience": "http://locahost:5000",
+        "Key": "travelapikeysupersecret"
+    }
+  }
