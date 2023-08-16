@@ -17,6 +17,7 @@ namespace TravelAPI.Controllers
         }
 
         //GET: api/Destinations
+        [MapToApiVersion("2.0")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Destination>>> Get(string cityName, string country, int rating, int minimumRating )
         {

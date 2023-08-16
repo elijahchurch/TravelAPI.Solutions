@@ -6,7 +6,7 @@ namespace TravelAPI.Models
   {
     public int DestinationId {get; set; }
     [Required]
-    [StringLength(20)]
+    [StringLength(30)]
     public string CityName { get; set; }
     [Required]
     public string Country { get; set; }
