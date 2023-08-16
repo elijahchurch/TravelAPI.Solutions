@@ -69,3 +69,6 @@ Authorized Api endpoint v2 sample GET
 http://localhost:5000/api/v2/Destinations
 In postman click authorization tab
 select bearer token and use the token returned from security/createToken
+
+token setup docs
+https://medium.com/bina-nusantara-it-division/implementing-jwt-in-asp-net-core-6-0-web-api-c-3a396fa8cfeb
