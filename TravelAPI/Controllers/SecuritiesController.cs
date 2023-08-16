@@ -16,13 +16,20 @@ namespace TravelAPI.Controllers
     public class SecuritiesController : ControllerBase
     {
         private readonly TravelAPIContext _db;
-        IConfiguration configuration;
+        private readonly IConfiguration _configuration;
         public SecuritiesController(TravelAPIContext db, IConfiguration configuration)
         {
             _db = db;
-            this.configuration = configuration;
+            _configuration = configuration;
         }
 
+        [HttpPost("/User")]
+        public async Task<ActionResult<User>> Post(User user)
+        {
+            _db.Users.Add(user);
+            await _db.SaveChangesAsync();
+            return NoContent();
+        }
 
         [AllowAnonymous] 
         [HttpPost("/getToken")]
@@ -37,10 +44,10 @@ namespace TravelAPI.Controllers
         //if (user.UserName == "joydip" && user.Password == "joydip123")
             // if (user.UserName == "joydip" && user.Password == "joydip123")
             {
-                var issuer = configuration["Jwt:Issuer"];
-                var audience = configuration["Jwt:Audience"];
+                var issuer = _configuration["Jwt:Issuer"];
+                var audience = _configuration["Jwt:Audience"];
                 var key = Encoding.ASCII.GetBytes
-                (configuration["Jwt:Key"]);
+                (_configuration["Jwt:Key"]);
 
                 var signingCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
