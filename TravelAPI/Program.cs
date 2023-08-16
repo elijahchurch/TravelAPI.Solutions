@@ -7,6 +7,7 @@ using System.Text;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using TravelAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
 
 var app = builder.Build();
 
@@ -61,6 +63,9 @@ app.MapGet("/security/getMessage", () => "Hello world").RequireAuthorization();
 app.MapPost("/security/createToken",
 [AllowAnonymous] (User user) =>
 {
+    // User resultUser = Users.Where(entity => (entity.UserName == user.UserName && entity.Password == user.Password));
+    // if(resultUser != null)
+  //if (user.UserName == "joydip" && user.Password == "joydip123")
     if (user.UserName == "joydip" && user.Password == "joydip123")
     {
         var issuer = builder.Configuration["Jwt:Issuer"];
@@ -106,6 +111,8 @@ else
 app.UseAuthentication();
 
 app.UseAuthorization();
+IConfiguration configuration = app.Configuration;
+IWebHostEnvironment environment = app.Environment;
 
 app.MapControllers();
 
