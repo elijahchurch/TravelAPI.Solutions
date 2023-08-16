@@ -54,3 +54,6 @@ DELETE http://localhost:5000/api/destinations/{id}
 
 ex: DELETE http://localhost:5000/api/destinations/8
 -- will delete entry with DestinationId 8 from the database
+
+Api endpoint v2 sample 
+http://localhost:5000/api/v2/Destinations
