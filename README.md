@@ -55,13 +55,17 @@ DELETE http://localhost:5000/api/destinations/{id}
 ex: DELETE http://localhost:5000/api/destinations/8
 -- will delete entry with DestinationId 8 from the database
 
-Api endpoint v2 sample 
-http://localhost:5000/api/v2/Destinations
+note you add a db context to create Users table and in there create the user joydip
 
 grab json token form a POST request to 
-http://localhost:5000/security/createToken
+http://localhost:5000/security/createToken, note this assumes the user has been created
 body
 {
     "UserName": "joydip",
     "Password": "joydip123"
 }
+
+Authorized Api endpoint v2 sample GET
+http://localhost:5000/api/v2/Destinations
+In postman click authorization tab
+select bearer token and use the token returned from security/createToken
