@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +56,42 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 app.MapGet("/security/getMessage", () => "Hello world").RequireAuthorization();
+
+// Will create a JWT for an authenticated user
+app.MapPost("/security/createToken",
+[AllowAnonymous] (User user) =>
+{
+    if (user.UserName == "joydip" && user.Password == "joydip123")
+    {
+        var issuer = builder.Configuration["Jwt:Issuer"];
+        var audience = builder.Configuration["Jwt:Audience"];
+        var key = Encoding.ASCII.GetBytes
+        (builder.Configuration["Jwt:Key"]);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim("Id", Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Email, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti,
+                Guid.NewGuid().ToString())
+            }),
+            Expires = DateTime.UtcNow.AddMinutes(60),
+            Issuer = issuer,
+            Audience = audience,
+            SigningCredentials = new SigningCredentials
+            (new SymmetricSecurityKey(key),
+            SecurityAlgorithms.HmacSha512Signature)
+        };
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var jwtToken = tokenHandler.WriteToken(token);
+        var stringToken = tokenHandler.WriteToken(token);
+        return Results.Ok(stringToken);
+    }
+    return Results.Unauthorized();
+});
 
 if (app.Environment.IsDevelopment())
 {
