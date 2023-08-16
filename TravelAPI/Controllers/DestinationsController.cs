@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TravelAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TravelAPI.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
     public class DestinationsController : ControllerBase
