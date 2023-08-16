@@ -57,3 +57,11 @@ ex: DELETE http://localhost:5000/api/destinations/8
 
 Api endpoint v2 sample 
 http://localhost:5000/api/v2/Destinations
+
+grab json token form a POST request to 
+http://localhost:5000/security/createToken
+body
+{
+    "UserName": "joydip",
+    "Password": "joydip123"
+}
