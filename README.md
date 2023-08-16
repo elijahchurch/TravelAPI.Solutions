@@ -65,6 +65,8 @@ body
     "Password": "joydip123"
 }
 
+or do a post to http://localhost:5000/getToken
+
 Authorized Api endpoint v2 sample GET
 http://localhost:5000/api/v2/Destinations
 In postman click authorization tab
